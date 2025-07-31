@@ -1,15 +1,9 @@
-// db.js
-const { Pool } = require('pg');
+// db.js (CommonJS)
+require('dotenv').config();
+const postgres = require('postgres');
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: 5432,
-  ssl: {
-    rejectUnauthorized: false, // untuk Supabase
-  },
+const sql = postgres(process.env.DATABASE_URL, {
+  ssl: 'require',
 });
 
-module.exports = pool;
+module.exports = sql;
