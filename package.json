@@ -1,7 +1,6 @@
 {
   "name": "admin-store-app",
   "version": "1.0.0",
-  "type": "module",
   "description": "Sistem admin toko untuk input dan pembatalan pembelian",
   "main": "index.js",
   "scripts": {
