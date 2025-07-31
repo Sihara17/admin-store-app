@@ -1,31 +1,23 @@
+<!-- views/produk.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daftar Produk</title>
+</head>
+<body>
+  <h1>Daftar Produk</h1>
+  <ul>
+    <% produk.forEach(p => { %>
+      <li><strong><%= p.nama %></strong> - Rp<%= p.harga %> - Stock: <%= p.stock %></li>
+    <% }) %>
+  </ul>
 
-<% layout('layout') -%>
-
-<h2>Daftar Produk</h2>
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Nama</th>
-    <th>Harga</th>
-    <th>Stok</th>
-  </tr>
-  <% produk.forEach(p => { %>
-    <tr>
-      <td><%= p.id %></td>
-      <td><%= p.nama %></td>
-      <td><%= p.harga %></td>
-      <td><%= p.stock %></td>
-    </tr>
-  <% }) %>
-</table>
-
-<h3>Tambah Produk</h3>
-<form action="/produk" method="POST">
-  <label>Nama:</label>
-  <input type="text" name="nama" required>
-  <label>Harga:</label>
-  <input type="number" name="harga" required>
-  <label>Stock:</label>
-  <input type="number" name="stock" required>
-  <button type="submit">Tambah</button>
-</form>
+  <h2>Tambah Produk</h2>
+  <form action="/produk/tambah" method="POST">
+    <input type="text" name="nama" placeholder="Nama" required />
+    <input type="number" name="harga" placeholder="Harga" required />
+    <input type="number" name="stock" placeholder="Stock" required />
+    <button type="submit">Tambah</button>
+  </form>
+</body>
+</html>
