@@ -2,21 +2,52 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// GET semua produk
-router.get('/', (req, res) => {
-  db.query('SELECT * FROM produk', (err, results) => {
-    if (err) return res.status(500).send(err);
-    res.render('produk', { produk: results });
-  });
+// Tampilkan semua produk
+router.get('/', async (req, res) => {
+  try {
+    const products = await db`SELECT * FROM products`;
+    res.render('produk', { products });
+  } catch (error) {
+    console.error('❌ Error fetching products:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-// POST tambah produk baru
-router.post('/tambah', (req, res) => {
-  const { nama, harga } = req.body;
-  db.query('INSERT INTO produk (nama, harga) VALUES (?, ?)', [nama, harga], (err) => {
-    if (err) return res.status(500).send(err);
-    res.redirect('/produk');
-  });
+// Form tambah produk
+router.get('/tambah', (req, res) => {
+  res.render('tambah-produk');
+});
+
+// Proses tambah produk
+router.post('/tambah', async (req, res) => {
+  const { name, price, stock } = req.body;
+
+  try {
+    await db`
+      INSERT INTO products (name, price, stock)
+      VALUES (${name}, ${price}, ${stock})
+    `;
+    res.redirect('/');
+  } catch (error) {
+    console.error('❌ Error adding product:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Hapus produk
+router.post('/hapus/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await db`
+      DELETE FROM products
+      WHERE id = ${id}
+    `;
+    res.redirect('/');
+  } catch (error) {
+    console.error('❌ Error deleting product:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;
