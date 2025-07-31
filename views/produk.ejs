@@ -1,0 +1,31 @@
+<!-- admin-store-app/views/produk.ejs -->
+<% layout('layout') -%>
+
+<h2>Daftar Produk</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Nama</th>
+    <th>Harga</th>
+    <th>Stok</th>
+  </tr>
+  <% produk.forEach(p => { %>
+    <tr>
+      <td><%= p.id %></td>
+      <td><%= p.nama %></td>
+      <td><%= p.harga %></td>
+      <td><%= p.stok %></td>
+    </tr>
+  <% }) %>
+</table>
+
+<h3>Tambah Produk</h3>
+<form action="/produk" method="POST">
+  <label>Nama:</label>
+  <input type="text" name="nama" required>
+  <label>Harga:</label>
+  <input type="number" name="harga" required>
+  <label>Stok:</label>
+  <input type="number" name="stok" required>
+  <button type="submit">Tambah</button>
+</form>
