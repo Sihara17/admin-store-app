@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head><title>Admin Store</title></head>
-<body>
-  <h1>Daftar Produk</h1>
-  <ul>
-    <% products.forEach(p => { %>
-      <li>
-        <%= p.name %> - Rp<%= p.price %> - Stock: <%= p.quantity %>
-        <form method="POST" action="/purchase">
-          <input type="hidden" name="product_id" value="<%= p.id %>"/>
-          <input type="number" name="quantity" min="1" max="<%= p.quantity %>" required/>
-          <button>Beli</button>
-        </form>
-      </li>
-    <% }) %>
-  </ul>
-  <a href="/purchases">Lihat Pembelian</a>
-</body>
-</html>
+<!-- admin-store-app/views/index.ejs -->
+<% layout('layout') -%>
+
+<h2>Selamat datang di Admin Store</h2>
+<p>Gunakan navigasi di atas untuk mengelola produk dan pembelian.</p>
