@@ -1,22 +1,28 @@
+// index.js
 const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+require("dotenv").config();
+
+const produkRoutes = require("./routes/produk");
+const pembelianRoutes = require("./routes/pembelian");
+
 const app = express();
-const db = require("./db");
 
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routing
+app.use("/produk", produkRoutes);
+app.use("/pembelian", pembelianRoutes);
 
 app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/produk", async (req, res) => {
-  try {
-    const result = await db.query("SELECT * FROM produk");
-    res.render("produk", { produk: result.rows });
-  } catch (error) {
-    res.status(500).send("Gagal mengambil produk: " + error.toString());
-  }
+  res.send("Homepage aktif ✅");
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server jalan di port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
+});
