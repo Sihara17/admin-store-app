@@ -1,29 +1,22 @@
 const express = require("express");
-const db = require("./db");
-const cors = require("cors");
-
 const app = express();
-const port = process.env.PORT || 3000;
+const db = require("./db");
 
-app.use(cors());
-app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
 
-// endpoint root
 app.get("/", (req, res) => {
-  res.json({ message: "Server aktif" });
+  res.render("index");
 });
 
-// endpoint untuk produk
 app.get("/produk", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM produk");
-    res.json(result.rows);
+    res.render("produk", { produk: result.rows });
   } catch (error) {
-    console.error("Gagal mengambil produk:", error);
-    res.status(500).json({ error: "Gagal mengambil produk" });
+    res.status(500).send("Gagal mengambil produk: " + error.toString());
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server berjalan di port ${port}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server jalan di port ${PORT}`));
