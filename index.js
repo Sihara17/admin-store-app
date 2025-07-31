@@ -4,16 +4,16 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const produkRoutes = require('./routes/produk');
 const pembelianRoutes = require('./routes/pembelian');
-const db = require('./db'); // pakai nama lebih tepat daripada 'pool'
+const db = require('./db'); // koneksi PostgreSQL pakai pg
 
 // Tes koneksi database
-db`SELECT 1`
-  .then(() => {
-    console.log('✅ Connected to Supabase database');
-  })
-  .catch(err => {
-    console.error('❌ Database connection error:', err.message);
-  });
+db.connect((err) => {
+  if (err) {
+    console.error('❌ Database connection error:', err.stack);
+  } else {
+    console.log('✅ Connected to PostgreSQL database');
+  }
+});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
