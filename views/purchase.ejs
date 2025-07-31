@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Riwayat Pembelian</title></head>
+<body>
+  <h1>Riwayat Pembelian</h1>
+  <ul>
+    <% purchases.forEach(p => { %>
+      <li>
+        <strong><%= p.name %></strong> - Jumlah: <%= p.quantity %> - Status: <%= p.status %>
+        <% if (p.status !== 'cancelled') { %>
+          <form method="POST" action="/cancel/<%= p.id %>">
+            <button>Batalkan</button>
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+  <a href="/">Kembali</a>
+</body>
+</html>
