@@ -1,0 +1,45 @@
+<!-- admin-store-app/views/pembelian.ejs -->
+<% layout('layout') -%>
+
+<h2>Riwayat Pembelian</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Produk</th>
+    <th>Jumlah</th>
+    <th>Tanggal</th>
+    <th>Status</th>
+    <th>Aksi</th>
+  </tr>
+  <% pembelian.forEach(p => { %>
+    <tr>
+      <td><%= p.id %></td>
+      <td><%= p.nama_produk %></td>
+      <td><%= p.jumlah %></td>
+      <td><%= p.tanggal %></td>
+      <td><%= p.status %></td>
+      <td>
+        <% if (p.status === 'selesai') { %>
+          <form action="/pembelian/<%= p.id %>/cancel" method="POST" style="display:inline">
+            <button type="submit">Cancel</button>
+          </form>
+        <% } else { %>
+          -
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+<h3>Tambah Pembelian</h3>
+<form action="/pembelian" method="POST">
+  <label>Produk:</label>
+  <select name="produk_id">
+    <% produk.forEach(pr => { %>
+      <option value="<%= pr.id %>"><%= pr.nama %></option>
+    <% }) %>
+  </select>
+  <label>Jumlah:</label>
+  <input type="number" name="jumlah" required>
+  <button type="submit">Beli</button>
+</form>
