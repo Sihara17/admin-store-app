@@ -1,4 +1,5 @@
 const express = require("express");
+<<<<<<< HEAD
 const path = require("path");
 const bodyParser = require("body-parser");
 
@@ -14,8 +15,27 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", produkRoutes);
 app.use("/pembelian", pembelianRoutes);
+=======
+const app = express();
+const path = require("path");
+require("dotenv").config();
+const produkRoutes = require("./routes/produk");
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Tambahkan untuk parsing form input
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+app.use("/produk", produkRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Homepage aktif ✅");
+});
+>>>>>>> f6b4f08 (Initial commit)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server berjalan di http://localhost:${PORT}`);
 });

@@ -1,31 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require('../db');
 
-router.get("/", async (req, res) => {
-  try {
-    const result = await db`
-      SELECT * FROM products ORDER BY id ASC
-    `;
-    res.render("produk", { products: result });
-  } catch (err) {
-    console.error("DB error:", err);
-    res.status(500).send("Internal Server Error");
-  }
+// GET semua produk
+router.get('/', (req, res) => {
+  db.query('SELECT * FROM produk', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.render('produk', { produk: results });
+  });
 });
 
-router.post("/tambah", async (req, res) => {
-  const { name, price, stock } = req.body;
-  try {
-    await db`
-      INSERT INTO products (name, price, stock)
-      VALUES (${name}, ${price}, ${stock})
-    `;
-    res.redirect("/");
-  } catch (err) {
-    console.error("Insert error:", err);
-    res.status(500).send("Error adding product");
-  }
+// POST tambah produk baru
+router.post('/tambah', (req, res) => {
+  const { nama, harga } = req.body;
+  db.query('INSERT INTO produk (nama, harga) VALUES (?, ?)', [nama, harga], (err) => {
+    if (err) return res.status(500).send(err);
+    res.redirect('/produk');
+  });
 });
 
 module.exports = router;
