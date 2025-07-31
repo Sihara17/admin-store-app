@@ -1,49 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db');
+const db = require("../db");
 
-// Tampilkan semua produk
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM products');
-    res.render('produk', { products: result.rows });
-  } catch (error) {
-    console.error('❌ Error fetching products:', error.message);
-    res.status(500).send('Internal Server Error');
+    const result = await db`
+      SELECT * FROM products ORDER BY id ASC
+    `;
+    res.render("produk", { products: result });
+  } catch (err) {
+    console.error("DB error:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-// Form tambah produk
-router.get('/tambah', (req, res) => {
-  res.render('tambah-produk');
-});
-
-// Proses tambah produk
-router.post('/tambah', async (req, res) => {
+router.post("/tambah", async (req, res) => {
   const { name, price, stock } = req.body;
-
   try {
-    await db.query(
-      'INSERT INTO products (name, price, stock) VALUES ($1, $2, $3)',
-      [name, price, stock]
-    );
-    res.redirect('/');
-  } catch (error) {
-    console.error('❌ Error adding product:', error.message);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Hapus produk
-router.post('/hapus/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    await db.query('DELETE FROM products WHERE id = $1', [id]);
-    res.redirect('/');
-  } catch (error) {
-    console.error('❌ Error deleting product:', error.message);
-    res.status(500).send('Internal Server Error');
+    await db`
+      INSERT INTO products (name, price, stock)
+      VALUES (${name}, ${price}, ${stock})
+    `;
+    res.redirect("/");
+  } catch (err) {
+    console.error("Insert error:", err);
+    res.status(500).send("Error adding product");
   }
 });
 
