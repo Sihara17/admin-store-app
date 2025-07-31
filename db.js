@@ -1,18 +1,15 @@
-const mysql = require('mysql2');
+// db.js
+const { Pool } = require('pg');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'admin_store_db'
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: 5432,
+  ssl: {
+    rejectUnauthorized: false, // untuk Supabase
+  },
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Database connection error:', err);
-  } else {
-    console.log('Connected to MySQL database.');
-  }
-});
-
-module.exports = connection;
+module.exports = pool;
