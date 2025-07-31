@@ -4,10 +4,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const produkRoutes = require('./routes/produk');
 const pembelianRoutes = require('./routes/pembelian');
-const pool = require('./db'); // import koneksi Supabase
+const db = require('./db'); // pakai nama lebih tepat daripada 'pool'
 
 // Tes koneksi database
-pool.connect()
+db`SELECT 1`
   .then(() => {
     console.log('✅ Connected to Supabase database');
   })
