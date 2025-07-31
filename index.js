@@ -1,5 +1,4 @@
 const express = require("express");
-<<<<<<< HEAD
 const path = require("path");
 const bodyParser = require("body-parser");
 
@@ -15,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", produkRoutes);
 app.use("/pembelian", pembelianRoutes);
-=======
 const app = express();
 const path = require("path");
 require("dotenv").config();
@@ -33,7 +31,6 @@ app.use("/produk", produkRoutes);
 app.get("/", (req, res) => {
   res.send("Homepage aktif ✅");
 });
->>>>>>> f6b4f08 (Initial commit)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
