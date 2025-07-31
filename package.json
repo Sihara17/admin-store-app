@@ -1,11 +1,7 @@
 {
   "name": "admin-store-app",
   "version": "1.0.0",
-<<<<<<< HEAD
   "description": "Sistem admin toko untuk input dan pembatalan pembelian",
-=======
-  "description": "A simple admin store app using Node.js, Express, and Supabase",
->>>>>>> f6b4f08 (Initial commit)
   "main": "index.js",
   "scripts": {
     "dev": "node index.js"
