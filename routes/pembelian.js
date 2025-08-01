@@ -1,42 +1,43 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const { supabase } = require('../lib/supabaseClient');
 
-// GET semua pembelian
-router.get('/', (req, res) => {
-  db.query(
-    'SELECT pembelian.*, produk.nama FROM pembelian JOIN produk ON pembelian.produk_id = produk.id',
-    (err, results) => {
-      if (err) return res.status(500).send(err);
-      res.render('pembelian', { pembelian: results });
-    }
-  );
+// GET riwayat pembelian
+router.get('/', async (req, res) => {
+  try {
+    const { data: pembelian, error } = await supabase
+      .from('pembelian')
+      .select(`
+        id,
+        jumlah,
+        tanggal,
+        status,
+        produk (
+          id,
+          nama
+        )
+      `)
+      .order('tanggal', { ascending: false });
+
+    if (error) throw error;
+
+    // Ambil semua produk juga untuk <select> form tambah pembelian
+    const { data: produk, error: errorProduk } = await supabase
+      .from('produk')
+      .select('*');
+
+    if (errorProduk) throw errorProduk;
+
+    // Render halaman
+    res.render('pembelian', {
+      pembelian: pembelian.map(p => ({
+        ...p,
+        nama_produk: p.produk.nama // untuk tampilan tabel
+      })),
+      produk
+    });
+  } catch (err) {
+    console.error('Gagal load pembelian:', err.message);
+    res.status(500).send('Gagal load pembelian');
+  }
 });
-
-// POST tambah pembelian
-router.post('/tambah', (req, res) => {
-  const { produk_id, jumlah } = req.body;
-  db.query(
-    'INSERT INTO pembelian (produk_id, jumlah, status) VALUES (?, ?, ?)',
-    [produk_id, jumlah, 'berhasil'],
-    (err) => {
-      if (err) return res.status(500).send(err);
-      res.redirect('/pembelian');
-    }
-  );
-});
-
-// POST batalkan pembelian
-router.post('/batal/:id', (req, res) => {
-  const id = req.params.id;
-  db.query(
-    "UPDATE pembelian SET status = 'batal' WHERE id = ?",
-    [id],
-    (err) => {
-      if (err) return res.status(500).send(err);
-      res.redirect('/pembelian');
-    }
-  );
-});
-
-module.exports = router;
