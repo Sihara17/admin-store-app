@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
   try {
     await db.query(
       `INSERT INTO pembelian (produk_id, jumlah, tanggal, status)
-       VALUES (1, 2, NOW(), 'selesai')`,
+       VALUES ($1, $2, NOW(), 'selesai')`,
       [produk_id, jumlah]
     );
     res.redirect("/pembelian");
