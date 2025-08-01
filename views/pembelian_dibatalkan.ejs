@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pembelian Dibatalkan</title>
+</head>
+<body>
+  <h1>Pembelian Dibatalkan</h1>
+  <a href="/pembelian">← Kembali ke Riwayat</a>
+
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>ID</th>
+      <th>Produk</th>
+      <th>Jumlah</th>
+      <th>Tanggal</th>
+      <th>Status</th>
+    </tr>
+    <% pembelian.forEach(p => { %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><%= p.nama_produk %></td>
+        <td><%= p.jumlah %></td>
+        <td><%= p.tanggal %></td>
+        <td><%= p.status %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>
