@@ -2,6 +2,8 @@
 const express = require("express");
 const path = require("path");
 const produkRouter = require("./routes/produk");
+const pemebelianRouter = require("./routes/pembelian");
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +19,7 @@ app.set("views", path.join(__dirname, "views"));
 // routing
 app.get("/", (req, res) => res.send("Homepage aktif ✅"));
 app.use("/produk", produkRouter);
+app.use("/pembelian", pembelianRouter);
 
 // listen
 app.listen(PORT, () => {
