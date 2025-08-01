@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.post("/tambah", async (req, res) => {
   const { nama, harga, stock } = req.body;
   try {
-    await db.query("INSERT INTO produk (nama, harga, stock) VALUES ($1, $2, $3)", [nama, harga, stock]);
+    await db.query("INSERT INTO produk (nama, harga, stock) VALUES (1, 2, 3)", [nama, harga, stock]);
     res.redirect("/produk");
   } catch (err) {
     console.error("Gagal tambah produk:", err);
