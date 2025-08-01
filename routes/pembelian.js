@@ -1,43 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const { supabase } = require('../lib/supabaseClient');
+const db = require('../db'); // pastikan ini sudah koneksi ke Supabase/pg-pool
 
-// GET riwayat pembelian
+// GET semua pembelian
 router.get('/', async (req, res) => {
   try {
-    const { data: pembelian, error } = await supabase
-      .from('pembelian')
-      .select(`
-        id,
-        jumlah,
-        tanggal,
-        status,
-        produk (
-          id,
-          nama
-        )
-      `)
-      .order('tanggal', { ascending: false });
+    const [pembelianData, produkData] = await Promise.all([
+      db.query(`
+        SELECT pembelian.*, produk.nama AS nama_produk 
+        FROM pembelian 
+        JOIN produk ON pembelian.produk_id = produk.id
+        ORDER BY pembelian.id DESC
+      `),
+      db.query('SELECT * FROM produk')
+    ]);
 
-    if (error) throw error;
-
-    // Ambil semua produk juga untuk <select> form tambah pembelian
-    const { data: produk, error: errorProduk } = await supabase
-      .from('produk')
-      .select('*');
-
-    if (errorProduk) throw errorProduk;
-
-    // Render halaman
     res.render('pembelian', {
-      pembelian: pembelian.map(p => ({
-        ...p,
-        nama_produk: p.produk.nama // untuk tampilan tabel
-      })),
-      produk
+      pembelian: pembelianData.rows,
+      produk: produkData.rows
     });
   } catch (err) {
-    console.error('Gagal load pembelian:', err.message);
-    res.status(500).send('Gagal load pembelian');
+    console.error('Gagal mengambil data:', err);
+    res.status(500).send("Gagal mengambil data pembelian.");
   }
 });
