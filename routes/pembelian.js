@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
   try {
     await db.query(
       `INSERT INTO pembelian (produk_id, jumlah, tanggal, status)
-       VALUES ($1, $2, NOW(), 'selesai')`,
+       VALUES (1, 2, NOW(), 'selesai')`,
       [produk_id, jumlah]
     );
     res.redirect("/pembelian");
@@ -48,7 +48,7 @@ router.post("/:id/cancel", async (req, res) => {
     await db.query(
       `UPDATE pembelian
        SET status = 'dibatalkan'
-       WHERE id = $1`,
+       WHERE id = 2`,
       [pembelianId]
     );
     res.redirect("/pembelian");
