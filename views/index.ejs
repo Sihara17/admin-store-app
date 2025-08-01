@@ -1,7 +1,37 @@
-<!-- admin-store-app/views/index.ejs -->
-<% layout('layout') -%>
-
-<h2>Selamat datang di Admin Store</h2>
-<p>Gunakan navigasi di atas untuk mengelola produk dan pembelian.</p>
-<a href="/pembelian/dibatalkan">Lihat Pembelian Dibatalkan</a>
-
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Toko</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 2rem;
+    }
+    .nav-buttons a {
+      display: inline-block;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    .nav-buttons a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Selamat Datang di Admin Toko</h1>
+  <div class="nav-buttons">
+    <a href="/produk">➕ Kelola Produk</a>
+    <a href="/pembelian">📦 Daftar Pembelian</a>
+    <a href="/pembelian/dibatalkan">❌ Pembelian Dibatalkan</a>
+  </div>
+</body>
+</html>
