@@ -2,6 +2,7 @@
 const express = require("express");
 const path = require("path");
 const produkRouter = require("./routes/produk");
+const pembelianRouter = require("./routes/pembelian");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
