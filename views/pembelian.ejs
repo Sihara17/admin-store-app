@@ -43,3 +43,7 @@
   <input type="number" name="jumlah" required>
   <button type="submit">Beli</button>
 </form>
+<form action="/pembelian/<%= pembelian.id %>/cancel" method="POST" style="display:inline;">
+  <button type="submit" onclick="return confirm('Yakin ingin membatalkan pembelian ini?')">Batalkan</button>
+</form>
+
