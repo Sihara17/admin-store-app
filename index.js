@@ -19,7 +19,7 @@ app.use("/produk", produkRoutes);
 app.use("/pembelian", pembelianRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Homepage aktif ✅");
+  res.render("index");
 });
 
 const PORT = process.env.PORT || 3000;
