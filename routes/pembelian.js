@@ -63,5 +63,3 @@ router.post("/:id/cancel", async (req, res) => {
 });
 
 module.exports = router;
-<hr />
-<a href="/pembelian/dibatalkan">Lihat pembelian yang dibatalkan</a>
