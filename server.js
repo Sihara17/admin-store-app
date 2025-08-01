@@ -17,6 +17,7 @@ app.set("views", path.join(__dirname, "views"));
 // routing
 app.get("/", (req, res) => res.send("Homepage aktif ✅"));
 app.use("/produk", produkRouter);
+app.use('/pembelian', pembelianRouter);
 
 // listen
 app.listen(PORT, () => {
